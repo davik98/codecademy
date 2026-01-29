@@ -1,0 +1,11 @@
+# Serveur Node minimal :
+npx serve .
+
+# lancer l'exécution d'un js depuis le terminal
+node app.js
+
+# lancer tests node
+npm test
+
+# tester avec mocha
+mocha test test/**/*_test.js
