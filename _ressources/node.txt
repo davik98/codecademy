@@ -9,3 +9,20 @@ npm test
 
 # tester avec mocha
 mocha test test/**/*_test.js
+
+
+
+
+## react
+
+# maj npm
+npm install -g npm@latest
+
+# vite boilerplate
+npm create vite@latest
+
+# vite boilerplate + options
+npm create vite@latest my-react-app -- --template react
+
+# lancer le projet
+npm run dev
