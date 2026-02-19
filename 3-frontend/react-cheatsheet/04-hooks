@@ -1,0 +1,294 @@
+/*
+Why Hooks?
+Hooks are functions that let us “hook into” state and lifecycle functionality in function components.
+
+Hooks allow us to:
+
+reuse stateful logic between components
+simplify and organize our code to separate concerns, rather allowing unrelated data to get tangled up together
+avoid confusion around the behavior of the this keyword
+avoid class constructors, binding methods, and related advanced JavaScript techniques
+
+Pourquoi les Hooks ? 
+Les Hooks sont des fonctions qui permettent d’accéder à l’état et au cycle de vie des composants fonctionnels. 
+Les Hooks permettent de : 
+réutiliser la logique d’état entre les composants ; 
+simplifier et organiser le code en séparant les responsabilités, évitant ainsi l’enchevêtrement de données non liées ; 
+éviter toute confusion concernant le comportement du mot-clé `this` ; 
+éviter les constructeurs de classes, les méthodes de liaison et autres techniques JavaScript avancées.
+*/
+
+
+
+
+/*
+Rules for Using Hooks
+There are two main rules to keep in mind when using hooks:
+
+Only call hooks from React function components.
+Only call hooks at the top level, to be sure that hooks are called in the same order each time a component renders.
+Common mistakes to avoid are calling hooks inside of loops, conditions, or nested functions.
+
+Règles d'utilisation des hooks 
+Deux règles principales sont à retenir lors de l'utilisation des hooks : 
+Appelez les hooks uniquement depuis les composants fonctionnels React. 
+Appelez les hooks uniquement au niveau supérieur, afin de garantir leur exécution dans le même ordre à chaque rendu du composant. 
+Évitez notamment d'appeler des hooks à l'intérieur de boucles, de conditions ou de fonctions imbriquées.
+*/
+
+// Instead of confusing React with code like this:
+if (userName !== '') {
+    useEffect(() => {
+        localStorage.setItem('savedUserName', userName);
+    });
+}
+
+// We can accomplish the same goal, while consistently calling our hook every time:
+useEffect(() => {
+    if (userName !== '') {
+        localStorage.setItem('savedUserName', userName);
+    }
+});
+
+
+
+
+/*
+Side Effects
+The primary purpose of a React component is to return some JSX to be rendered. 
+Often, it is helpful for a component to execute some code that performs side effects in addition to rendering JSX.
+
+In function components, we manage side effects with the Effect Hook. 
+Some common side effects include: fetching data from a server, subscribing to a data stream, logging values to the console, interval timers, and directly interacting with the DOM.
+
+Effets secondaires 
+La fonction principale d'un composant React est de renvoyer du JSX à afficher. 
+Il est souvent utile qu'un composant exécute du code produisant des effets secondaires, en plus de l'affichage du JSX. 
+Dans les composants fonctionnels, nous gérons les effets secondaires grâce au hook Effect. Parmi les effets secondaires courants, on peut citer : 
+la récupération de données depuis un serveur, l'abonnement à un flux de données, l'affichage de valeurs dans la console, les minuteurs d'intervalle et l'interaction directe avec le DOM.
+*/
+
+
+
+
+/*
+The Effect Hook
+The useEffect hook runs side effects after a render, with the frequency controlled by its dependency array. 
+It takes two arguments in the form useEffect(callback, dependencies). 
+The callback contains the side‑effect logic and runs after the initial render and again whenever one of the dependencies changes (or after every render if you omit the dependency array).
+
+Le hook d'effet 
+Le hook `useEffect` exécute des effets secondaires après un rendu, leur fréquence étant contrôlée par son tableau de dépendances. 
+Il prend deux arguments sous la forme `useEffect(callback, dependencies)`. 
+La fonction de rappel contient la logique de l'effet secondaire et s'exécute après le rendu initial, puis à chaque modification d'une dépendance (ou après chaque rendu si le tableau de dépendances est omis).
+*/
+
+import React, { useState, useEffect } from 'react';
+
+function TitleCount() {
+    const [count, setCount] = useState(0);
+
+    useEffect(() => {
+        document.title = `You clicked ${count} times`;
+    }, [count]);
+
+    return <button onClick={() => setCount(prev => prev + 1)}>+</button>;
+}
+
+
+
+
+/*
+Effect Cleanup Functions
+The cleanup function is optionally returned by the first argument of the Effect Hook.
+
+If the effect does anything that needs to be cleaned up to prevent memory leaks, then the effect returns a cleanup function. 
+The cleanup function is called before re-running the effect (when dependencies change) and when the component unmounts.
+
+Fonctions de nettoyage des effets 
+La fonction de nettoyage est éventuellement renvoyée par le premier argument du hook d'effet. 
+Si l'effet effectue des opérations nécessitant un nettoyage pour éviter les fuites de mémoire, il renvoie une fonction de nettoyage. 
+Cette fonction est appelée avant la réexécution de l'effet (lorsque les dépendances changent) et lors du démontage du composant.
+*/
+
+useEffect(() => {
+    document.addEventListener('keydown', handleKeydown);
+    //Clean up the effect: 
+    return () => document.removeEventListener('keydown', handleKeydown);
+});
+
+
+
+
+/*
+Multiple Effect Hooks
+useEffect() may be called more than once in a component. 
+This gives us the freedom to individually configure our dependency arrays, separate concerns, and organize the code.
+
+Utilisation de plusieurs hooks d'effet 
+La méthode `useEffect()` peut être appelée plusieurs fois dans un composant. 
+Cela nous permet de configurer individuellement nos tableaux de dépendances, de séparer les responsabilités et d'organiser le code.
+*/
+
+function App(props) {
+    const [title, setTitle] = useState('');
+    useEffect(() => {
+        document.title = title;
+    }, [title]);
+
+    const [time, setTime] = useState(0);
+    useEffect(() => {
+        const intervalId = setInterval(() => setTime((prev) => prev + 1), 1000);
+        return () => clearInterval(intervalId);
+    }, []);
+
+    // ...
+}
+
+
+
+
+/*
+Effect Dependency Array
+The dependency array is used to tell the useEffect() method when to call the effect.
+
+By default, with no dependency array provided, the effect is called after every render.
+An empty dependency array signals that the effect never needs to be re-run.
+A non-empty dependency array signals that the hook runs the effect only when any of the dependency array values changes.
+
+Tableau de dépendances d'effet 
+Le tableau de dépendances indique à la méthode `useEffect()` quand appeler l'effet. 
+Par défaut, sans tableau de dépendances, l'effet est appelé après chaque rendu. 
+Un tableau de dépendances vide signifie que l'effet n'a jamais besoin d'être réexécuté. 
+Un tableau de dépendances non vide signifie que le hook exécute l'effet uniquement lorsqu'une de ses valeurs change.
+*/
+
+useEffect(() => {
+    alert('called after every render');
+});
+
+useEffect(() => {
+    alert('called after first render');
+}, []);
+
+useEffect(() => {
+    alert('called when value of `endpoint` or `id` changes');
+}, [endpoint, id]);
+
+
+
+
+
+
+/*
+Custom Hooks
+Custom Hooks are JavaScript functions that make use of other hooks, follow the rules of hooks, and whose names begin with use. 
+Custom hooks are simply a convention and the programmer can decide what they do and what they return.
+
+The provided example is from the Playing Hooky project. 
+This custom hook changes the page’s appearance to “dark” or “light” mode while providing the current theme value for use elsewhere in the application.
+
+Hooks personnalisés Les hooks personnalisés sont des fonctions JavaScript qui utilisent d'autres hooks, respectent leurs règles et dont le nom commence par « use ». 
+Il s'agit d'une simple convention : le programmeur peut définir leur comportement et leur valeur de retour.
+L'exemple fourni provient du projet Playing Hooky. 
+Ce hook personnalisé permet de basculer l'apparence de la page entre le mode « sombre » et le mode « clair », tout en fournissant la valeur du thème actuel pour une utilisation ultérieure dans l'application.
+*/
+
+const useTheme = () => {
+    // "theme" state with a default value of "light".
+    const [theme, setTheme] = useState("light");
+    // Changes the pages CSS styling.
+    useEffect(() => {
+        document.documentElement.setAttribute("data-theme", theme);
+    }, [theme]);
+    // Function executed in the application.
+    const onToggleTheme = () => {
+        setTheme((previousTheme) => previousTheme === "light" ? "dark" : "light");
+    };
+    // Makes the function available for use in the application.
+    return { theme, onToggleTheme };
+}
+
+
+/*
+Use of Custom Hooks
+Custom hooks have many benefits. They:
+
+Allow code to be abstracted
+Hide complex logic
+Allow stateful logic to be reused between multiple components
+
+Utilisation des hooks personnalisés Les hooks personnalisés présentent de nombreux avantages. 
+Ils permettent notamment : 
+d’abstraire le code ; 
+de masquer la logique complexe ; 
+et de réutiliser la logique avec état entre plusieurs composants.
+*/
+
+
+/*
+The State Hook
+The useState() Hook lets you add React state to function components. It should be called at the top level of a React function definition to manage its state.
+
+initialState is an optional value that can be used to set the value of currentState for the first render. 
+The stateSetter function is used to update the value of currentState and rerender our component with the next state value.
+
+
+Le Hook d'état 
+Le Hook `useState()` permet d'ajouter un état React aux composants fonctionnels. 
+Il doit être appelé au niveau supérieur de la définition d'une fonction React pour gérer son état. 
+`initialState` est une valeur optionnelle qui permet de définir la valeur de `currentState` pour le premier rendu. 
+La fonction `stateSetter` sert à mettre à jour la valeur de `currentState` et à rendre à nouveau le composant avec la nouvelle valeur d'état.
+*/
+
+const [currentState, stateSetter] = useState(initialState);
+
+
+
+
+/*
+State Setter Callback Function
+When the previous state value is used to calculate the next state value, pass a function to the state setter. 
+This function accepts the previous value as an argument and returns an updated value.
+
+If the previous state is not used to compute the next state, just pass the next state value as the argument for the state setter.
+
+Note: The Reset button doesn’t need the function form since it’s not based on the previous state; it’s setting a fixed value.
+
+Fonction de rappel pour la modification d'état 
+Lorsque la valeur de l'état précédent est utilisée pour calculer la valeur de l'état suivant, transmettez une fonction à la modification d'état. 
+Cette fonction accepte la valeur précédente comme argument et renvoie la valeur mise à jour. 
+Si l'état précédent n'est pas utilisé pour calculer l'état suivant, transmettez simplement la valeur de l'état suivant comme argument à la modification d'état. 
+Remarque : Le bouton « Réinitialiser » ne nécessite pas de fonction, car il ne dépend pas de l'état précédent ; il définit une valeur fixe.
+*/
+
+function Counter({ initialCount }) {
+    const [count, setCount] = useState(initialCount);
+    return (
+        <div>
+            Count: {count}
+            <button onClick={() => setCount(initialCount)}>Reset</button>
+            <button onClick={() => setCount((prevCount) => prevCount - 1)}>-</button>
+            <button onClick={() => setCount((prevCount) => prevCount + 1)}>+</button>
+        </div>
+    );
+}
+
+
+
+
+/*
+Multiple State Hooks
+useState() may be called more than once in a component. 
+This gives us the freedom to separate concerns, simplify our state setter logic, and organize our code in whatever way makes the most sense to us!
+
+Gestion de plusieurs états 
+La méthode `useState()` peut être appelée plusieurs fois dans un composant. 
+Cela nous permet de séparer les responsabilités, de simplifier la logique de mise à jour de l'état et d'organiser notre code comme bon nous semble !
+*/
+
+function App() {
+    const [sport, setSport] = useState('basketball');
+    const [points, setPoints] = useState(31);
+    const [hobbies, setHobbies] = useState([]);
+}
