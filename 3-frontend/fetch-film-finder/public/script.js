@@ -1,5 +1,4 @@
-const tmdbKey =
-    "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0YmNiNjJkZjdmMzY3NmEzM2IwMDhjZTkyZmRiYjYxYSIsIm5iZiI6MTc3MDExMDM3Ny40MDQsInN1YiI6IjY5ODFiZGE5MjA4YWQzM2E5YjRjOTZiMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.WrNHHaSOo3XNdKdGovBrm-DupV58cJGGOiQbztBaDnc";
+const tmdbKey = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0YmNiNjJkZjdmMzY3NmEzM2IwMDhjZTkyZmRiYjYxYSIsIm5iZiI6MTc3MDExMDM3Ny40MDQsInN1YiI6IjY5ODFiZGE5MjA4YWQzM2E5YjRjOTZiMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.WrNHHaSOo3XNdKdGovBrm-DupV58cJGGOiQbztBaDnc";
 const tmdbBaseUrl = "https://api.themoviedb.org/3/";
 const playBtn = document.getElementById("playBtn");
 const options = {
