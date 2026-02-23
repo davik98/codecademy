@@ -1,9 +1,0 @@
-{
-  "main": "main.js",
-  "scripts": {
-    "test": "mocha **/test/**/*_test.js"
-  },
-  "devDependencies": {
-    "mocha": "^11.7.5"
-  }
-}

@@ -144,6 +144,9 @@ const CounterButton = ({ setCount }) => {
 /*
 Downsides of Prop Drilling
 Downsides of prop drilling include components being harder to understand and excess rerenders of components that pass props without using them.
+
+Inconvénients du forage par hélices 
+Les inconvénients du forage par hélices incluent une plus grande difficulté à comprendre les composants et un nombre excessif de rendus de composants qui passent les hélices sans les utiliser.
 */
 
 // This component prop drills three props: apple, banana, and cherry
@@ -162,6 +165,9 @@ const MyComponent = ({ apple, banana, cherry, children }) => {
 /*
 Multiple Providers
 A .Provider component can be used in multiple places in your application to provide different values for that subtree.
+
+Fournisseurs multiples 
+Un composant .Provider peut être utilisé à plusieurs endroits dans votre application pour fournir différentes valeurs pour ce sous-arbre.
 */
 
 // The theme for App, Header, and Body will be "light". Only Footer will have the "dark" theme.
